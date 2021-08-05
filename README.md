@@ -3,8 +3,11 @@
 # I currently prefer to use:
 
 🌶 zsh
+
 🌶 starship as prompt -> https://starship.rs
+
 🌶 nvim as IDE -> https://neovim.io 
+
 🌶 check my plugin set in nvim/init.vim
 
 # Contacts
