@@ -13,4 +13,4 @@
 # Contacts
 https://t.me/fildenisov 
 
-email: fil@denisov.dev
+fil@denisov.dev
