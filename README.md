@@ -17,6 +17,8 @@ fil@denisov.dev
 
 # Cheatsheet
 
-_undo_ 'u'
-_redo_ 'C - r'
-_copy to clipboard_ '"*y'
+_undo_ `u`
+
+_redo_ `C - r`
+
+_copy to clipboard_ `"*y`
