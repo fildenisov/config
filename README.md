@@ -14,3 +14,9 @@
 https://t.me/fildenisov 
 
 fil@denisov.dev
+
+# Cheatsheet
+
+_undo_ 'u'
+_redo_ 'C - r'
+_copy to clipboard_ '"*y'
