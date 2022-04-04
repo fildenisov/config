@@ -14,6 +14,11 @@ Plug 'tpope/vim-fugitive'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'ryanoasis/vim-devicons'
 Plug 'Xuyuanp/nerdtree-git-plugin'
+" Plug 'Shougo/neosnippet.vim'
+" Plug 'Shougo/neosnippet-snippets'
+Plug 'SirVer/ultisnips'
+" Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && arn install'  }
 
 call plug#end()
 
@@ -42,6 +47,12 @@ inoremap <silent><expr> <TAB>
       \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
+" inoremap <silent><expr> <C-Down>
+"       \ pumvisible() ? "\<C-n>" :
+"       \ <SID>check_back_space() ? "\<Down>" :
+"       \ coc#refresh()
+" inoremap <expr><C-Up> pumvisible() ? "\<C-p>" : "\<C-h>"
+
 function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
@@ -59,6 +70,7 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+nmap <silent> gf :GoFmt<CR>:GoImports<CR>
 
 " Use U to show documentation in preview window
 nnoremap <silent> U :call <SID>show_documentation()<CR>
@@ -113,8 +125,8 @@ let g:go_auto_sameids = 1
 let g:go_fmt_command = "goimports"
 
 " Error and warning signs.
-let g:ale_sign_error = '⤫'
-let g:ale_sign_warning = '⚠'
+let g:ale_sign_error = '‚§´'
+let g:ale_sign_warning = '‚ö†'
 
 " Enable integration with airline.
 let g:airline#extensions#ale#enabled = 1
@@ -142,7 +154,40 @@ colorscheme onedark
 set updatetime=100
 let g:signify_sign_add               = '+'
 let g:signify_sign_delete            = '_'
-let g:signify_sign_delete_first_line = '‾'
+let g:signify_sign_delete_first_line = '‚Äæ'
 let g:signify_sign_change            = '!'
 let g:signify_sign_change_delete     = g:signify_sign_change . g:signify_sign_delete_first_line
 let g:signify_realtime 		     = 1
+
+let g:go_debug_windows = {
+    \ 'vars':       'rightbelow 60vnew',
+    \ 'stack':      'rightbelow 10new',
+    \ 'out':     'rightbelow 10new',
+\ }
+"
+"
+:nnoremap ‚àÇ :GoDebugStart<CR>
+:nnoremap √ü :GoDebugStop<CR>
+:nnoremap ‚à´ :GoDebugBreakpoint<CR>
+:nnoremap √ß :GoDebugContinue<CR>
+:nnoremap Àú :GoDebugNext<CR>
+:nnoremap ‚âà :GoDebugStep<CR>
+
+augroup filetype
+  au! BufRead,BufNewFile *.proto setfiletype proto
+augroup end
+
+" specify browser to open preview page
+" default: ''
+" let g:mkdp_browser = 'safari'
+
+" use a custom port to start server or random for empty
+" let g:mkdp_port = '9876'
+
+" preview page title
+" ${name} will be replace with the file name
+" let g:mkdp_page_title = '„Äå${name}„Äç'
+
+" recognized filetypes
+" these filetypes will have MarkdownPreview... commands
+" let g:mkdp_filetypes = ['markdown']
