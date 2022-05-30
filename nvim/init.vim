@@ -13,20 +13,22 @@ Plug 'mhinz/vim-signify'
 Plug 'tpope/vim-fugitive'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'ryanoasis/vim-devicons'
+Plug 'kyazdani42/nvim-web-devicons'
 Plug 'Xuyuanp/nerdtree-git-plugin'
-" Plug 'Shougo/neosnippet.vim'
-" Plug 'Shougo/neosnippet-snippets'
 Plug 'SirVer/ultisnips'
-" Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && arn install'  }
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+" :TSInstall <language_to_install>
+Plug 'kdheepak/lazygit.nvim'
+Plug 'hashivim/vim-terraform'
 
 call plug#end()
 
 set encoding=UTF-8
-
-" -------------------------------------------------------------------------------------------------
-" coc.nvim default settings
-" -------------------------------------------------------------------------------------------------
+let g:onedark_style = 'deep'
+colorscheme onedark
 " if hidden is not set, TextEdit might fail.
 set hidden
 " Better display for messages
@@ -37,7 +39,60 @@ set updatetime=300
 set shortmess+=c
 " always show signcolumns
 set signcolumn=yes
+
 set number
+set termguicolors
+set updatetime=100
+
+" [GOLANG] ++++++++++++++++++++++++++++++++++++++++++++++
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_types = 1
+let g:go_auto_sameids = 1
+let g:go_fmt_command = "goimports"
+" disable vim-go :GoDef short cut (gd)
+" this is handled by LanguageClient [LC]
+let g:go_def_mapping_enabled = 0
+let g:go_auto_type_info = 1
+let g:go_fillstruct_mode = 'fillstruct'
+let g:go_debug_windows = {
+    \ 'vars':       'rightbelow 60vnew',
+    \ 'stack':      'rightbelow 10new',
+    \ 'out':     'rightbelow 10new',
+\ }
+
+au FileType go set noexpandtab
+au FileType go set shiftwidth=4
+au FileType go set softtabstop=4
+" [GOLANG] ---------------------------------------------
+
+" [ALE] ++++++++++++++++++++++++++++++++++++++++++++++++
+" Error and warning signs.
+let g:ale_sign_error = '‚§´'
+let g:ale_sign_warning = '‚ö†'
+" [ALE] ------------------------------------------------
+
+" [AIRLINE] ++++++++++++++++++++++++++++++++++++++++++++
+" Enable integration with airline.
+let g:airline#extensions#ale#enabled = 1
+" Don't forget set the airline theme as well.
+let g:airline_theme = "sol"
+" [AIRLINE] --------------------------------------------
+
+" [SIGNIFY] ++++++++++++++++++++++++++++++++++++++++++++
+" default updatetime 4000ms is not good for async update
+let g:signify_sign_add               = '+'
+let g:signify_sign_delete            = '_'
+let g:signify_sign_delete_first_line = '‚Äæ'
+let g:signify_sign_change            = '!'
+let g:signify_sign_change_delete     = g:signify_sign_change . g:signify_sign_delete_first_line
+let g:signify_realtime 		     = 1
+" [SIGNIFY] --------------------------------------------
 
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
@@ -58,6 +113,14 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
 " Use <c-space> to trigger completion.
 inoremap <silent><expr> <c-space> coc#refresh()
 
@@ -71,6 +134,7 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 nmap <silent> gf :GoFmt<CR>:GoImports<CR>
+nmap <silent> gc :GoFillStruct<CR>
 
 " Use U to show documentation in preview window
 nnoremap <silent> U :call <SID>show_documentation()<CR>
@@ -98,10 +162,6 @@ nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
-" disable vim-go :GoDef short cut (gd)
-" this is handled by LanguageClient [LC]
-let g:go_def_mapping_enabled = 0
-
 " NERDTree settings
 nnoremap <leader>n :NERDTreeFocus<CR>
 nnoremap <C-n> :NERDTree<CR>
@@ -112,82 +172,27 @@ map  <C-]> :tabn<CR>
 map  <C-\> :tabp<CR>
 map  <S-f> :Rg<CR>
 
-" VIMGO SETUP!!!!!!!!!!!
-let g:go_highlight_build_constraints = 1
-let g:go_highlight_extra_types = 1
-let g:go_highlight_fields = 1
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_structs = 1
-let g:go_highlight_types = 1
-let g:go_auto_sameids = 1
-let g:go_fmt_command = "goimports"
-
-" Error and warning signs.
-let g:ale_sign_error = '‚§´'
-let g:ale_sign_warning = '‚ö†'
-
-" Enable integration with airline.
-let g:airline#extensions#ale#enabled = 1
-
-let g:go_auto_type_info = 1
-
-" Don't forget set the airline theme as well.
-let g:airline_theme = "sol"
-
-" This line enables the true color support.
-let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-
-" Note, the above line is ignored in Neovim 0.1.5 above, use this line instead.
-set termguicolors
-
-au FileType go set noexpandtab
-au FileType go set shiftwidth=4
-au FileType go set softtabstop=4
-
-
-let g:onedark_style = 'deep'
-colorscheme onedark
-
-" default updatetime 4000ms is not good for async update
-set updatetime=100
-let g:signify_sign_add               = '+'
-let g:signify_sign_delete            = '_'
-let g:signify_sign_delete_first_line = '‚Äæ'
-let g:signify_sign_change            = '!'
-let g:signify_sign_change_delete     = g:signify_sign_change . g:signify_sign_delete_first_line
-let g:signify_realtime 		     = 1
-
-let g:go_debug_windows = {
-    \ 'vars':       'rightbelow 60vnew',
-    \ 'stack':      'rightbelow 10new',
-    \ 'out':     'rightbelow 10new',
-\ }
-"
-"
-:nnoremap ‚àÇ :GoDebugStart<CR>
-:nnoremap √ü :GoDebugStop<CR>
-:nnoremap ‚à´ :GoDebugBreakpoint<CR>
-:nnoremap √ß :GoDebugContinue<CR>
-:nnoremap Àú :GoDebugNext<CR>
-:nnoremap ‚âà :GoDebugStep<CR>
+nnoremap ‚àÇ :GoDebugStart<CR>
+nnoremap √ü :GoDebugStop<CR>
+nnoremap ‚à´ :GoDebugBreakpoint<CR>
+nnoremap √ß :GoDebugContinue<CR>
+nnoremap Àú :GoDebugNext<CR>
+nnoremap ‚âà :GoDebugStep<CR>
 
 augroup filetype
   au! BufRead,BufNewFile *.proto setfiletype proto
 augroup end
 
-" specify browser to open preview page
-" default: ''
-" let g:mkdp_browser = 'safari'
+" open file in safari
+nnoremap <F5> :!open -a Safari %<CR><CR>
 
-" use a custom port to start server or random for empty
-" let g:mkdp_port = '9876'
+" Find files using Telescope command-line sugar.
+:nnoremap <leader>ff <cmd>Telescope find_files<cr>
+:nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+:nnoremap <leader>fb <cmd>Telescope buffers<cr>
+:nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+:nnoremap <leader>ft <cmd>Telescope treesitter<cr>
 
-" preview page title
-" ${name} will be replace with the file name
-" let g:mkdp_page_title = '„Äå${name}„Äç'
+" setup mapping to call :LazyGit
+nnoremap <leader>gg :LazyGit<CR>
 
-" recognized filetypes
-" these filetypes will have MarkdownPreview... commands
-" let g:mkdp_filetypes = ['markdown']
