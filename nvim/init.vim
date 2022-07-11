@@ -39,10 +39,18 @@ set updatetime=300
 set shortmess+=c
 " always show signcolumns
 set signcolumn=yes
+" folding
+" set foldcolumn=1
+" set foldmethod=syntax
+" set foldlevelstart=1
+" let go_fold=1
 
 set number
 set termguicolors
 set updatetime=100
+
+" parse multiple times
+xnoremap p pgvy 
 
 " [GOLANG] ++++++++++++++++++++++++++++++++++++++++++++++
 let g:go_highlight_build_constraints = 1
