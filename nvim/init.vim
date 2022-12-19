@@ -24,8 +24,12 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'kdheepak/lazygit.nvim'
 Plug 'hashivim/vim-terraform'
 
+Plug 'https://github.com/weirongxu/plantuml-previewer.vim'
+Plug 'https://github.com/tyru/open-browser.vim'
+Plug 'aklt/plantuml-syntax'
+
 " JS
-let g:coc_global_extensions = ['coc-tslint-plugin', 'coc-tsserver', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier']  " list of CoC extensions needed
+let g:coc_global_extensions = ['coc-tslint-plugin', 'coc-tsserver', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier', 'coc-python']  " list of CoC extensions needed
 
 Plug 'jiangmiao/auto-pairs' "this will auto close ( [ {
 
@@ -67,6 +71,7 @@ set signcolumn=yes
 set number
 set termguicolors
 set updatetime=100
+set guifont=<Your\ Nerd\ Font>
 
 " parse multiple times
 xnoremap p pgvy 
@@ -100,8 +105,8 @@ au FileType go set softtabstop=4
 
 " [ALE] ++++++++++++++++++++++++++++++++++++++++++++++++
 " Error and warning signs.
-let g:ale_sign_error = '‚§´'
-let g:ale_sign_warning = '‚ö†'
+let g:ale_sign_error = 'X'
+let g:ale_sign_warning = '!'
 " [ALE] ------------------------------------------------
 
 " [AIRLINE] ++++++++++++++++++++++++++++++++++++++++++++
@@ -115,7 +120,7 @@ let g:airline_theme = "sol"
 " default updatetime 4000ms is not good for async update
 let g:signify_sign_add               = '+'
 let g:signify_sign_delete            = '_'
-let g:signify_sign_delete_first_line = '‚Äæ'
+let g:signify_sign_delete_first_line = 'D'
 let g:signify_sign_change            = '!'
 let g:signify_sign_change_delete     = g:signify_sign_change . g:signify_sign_delete_first_line
 let g:signify_realtime 		     = 1

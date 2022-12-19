@@ -1,9 +1,19 @@
 {
-  "languageserver": {
-    "golang": {
-      "command": "gopls",
-      "rootPatterns": ["go.mod", ".vim/", ".git/", ".hg/"],
-      "filetypes": ["go"]
-    }
-  }
+    "languageserver": {
+        "golang": {
+            "command": "gopls",
+            "rootPatterns": ["go.mod", ".vim/", ".git/", ".hg/"],
+            "filetypes": ["go"]
+        }
+    },
+    "python.linting.enabled": true,
+    "python.linting.pylintArgs": ["--rcfile", "~/.pylintrc", "-d", "C0411"],
+    "python.formatting.provider": "black",
+    "python.formatting.blackPath": "~/miniconda3/envs/neovim/bin/black",
+    "python.linting.pylintUseMinimalCheckers": false,
+    "python.linting.pylintPath": "pylint",
+    "python.condaPath": "conda",
+    "python.sortImports.args": ["-sp", "~/.isort.cfg"],
+    "coc.preferences.formatOnSaveFiletypes": ["*.py"],
+    "pyright.enable": true
 }
